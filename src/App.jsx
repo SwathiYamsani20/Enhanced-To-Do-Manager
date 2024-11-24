@@ -10,11 +10,11 @@ function App() {
   const [activeTab, setActiveTab] = useState(0);
   const [editingTodo, setEditingTodo] = useState(null); 
   const [newTitle, setNewTitle] = useState(""); 
-  const [newCompleted, setNewCompleted] = useState(false); // New state for checkbox
+  const [newCompleted, setNewCompleted] = useState(false); 
   const dialogRef = useRef(null);
 
   useEffect(() => {
-    // Fetch todos and check for localStorage updates
+    
     fetch('https://jsonplaceholder.typicode.com/todos')
       .then(response => response.json())
       .then(data => {
@@ -52,7 +52,7 @@ function App() {
   function openDialog(todo) {
     setEditingTodo(todo); 
     setNewTitle(todo.title); 
-    setNewCompleted(todo.completed); // Set initial checkbox state
+    setNewCompleted(todo.completed); 
     dialogRef.current.showModal();
   }
 
@@ -62,21 +62,21 @@ function App() {
   }
 
   function saveTodo() {
-    // Update the title and checkbox status of the todo being edited
+    
     setTodos(prevTodos => 
       prevTodos.map(todo => 
         todo.id === editingTodo.id ? { ...todo, title: newTitle, completed: newCompleted } : todo
       )
     );
     
-    // Save the new title and checkbox status to localStorage
+    
     localStorage.setItem(`todo-${editingTodo.id}`, newTitle);
     localStorage.setItem(`todo-completed-${editingTodo.id}`, JSON.stringify(newCompleted));
     
-    closeDialog(); // Close the dialog after saving
+    closeDialog(); 
   }
 
-  // Filtering todos based on active tab
+  
   const displayedTodos = sortedList.filter(todo => {
     if (activeTab === 1) return todo.completed; 
     if (activeTab === 2) return !todo.completed;
@@ -102,7 +102,7 @@ function App() {
 
       <h1>Todo List</h1>
 
-      {/* Tabs Component */}
+      
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={activeTab} onChange={handleTabChange} aria-label="Todo Tabs">
           <Tab label="All Todos" />
@@ -111,7 +111,7 @@ function App() {
         </Tabs>
       </Box>
 
-      {/* Display Todos in Table Format */}
+      
       {todos.length > 0 ? (
         <table>
           <thead>
@@ -149,7 +149,7 @@ function App() {
         <p>Loading...</p>
       )}
 
-      {/* Dialog for editing */}
+      
       <dialog className='custom-dialog' ref={dialogRef}>
         <h2>Edit the todo</h2>
         <input 
@@ -163,7 +163,7 @@ function App() {
             <input
               type="checkbox"
               checked={newCompleted} 
-              onChange={(e) => setNewCompleted(e.target.checked)} // Allow checkbox toggle
+              onChange={(e) => setNewCompleted(e.target.checked)} 
             />
             <label>
             Completed
